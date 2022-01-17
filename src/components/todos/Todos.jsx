@@ -34,28 +34,50 @@ function Todos() {
 
     return (
         <div>
-            <form>
+            <form style={{ textAlign: 'center', marginBottom: '10px ', backgroundColor: 'yellow', padding: '10px', width: '830px', margin: 'auto' }}>
                 <input type="text" value={todoText} onChange={(e) => setTodoText(e.target.value)} />
                 <button type="submit" onClick={handleAddTodo}>INCLUIR</button>
             </form>
-            <h3>Pendentes:</h3>
-            <ul>
-                {pendingTodos.length ? pendingTodos.map(todo =>
-                    <li key={todo.id} id={todo.id}>{todo.text} -
-                        <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Concluído</button> -
-                        <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
-                    </li>
-                ) : <li>Sem TODOS pendentes.</li>}
-            </ul>
-            <h3>Concluídos:</h3>
-            <ul>
-                {doneTodos.length ? doneTodos.map(todo =>
-                    <li key={todo.id} id={todo.id}>{todo.text} -
-                        <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Concluído</button> -
-                        <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
-                    </li>
-                ) : <li>Sem TODOS concluídos.</li>}
-            </ul>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{
+                    flexBasis: '400px',
+                    backgroundColor: 'red',
+                    padding: '10px',
+                    margin: '5px'
+                }}>
+                    <h3>Pendentes:</h3>
+                    <ul>
+                        {pendingTodos.length ? pendingTodos.map(todo => (
+                            <li key={todo.id} id={todo.id} style={{ clear: 'both' }}>
+                                <span>{todo.text}</span>
+                                <span style={{ float: 'right' }}>
+                                    <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Concluído</button>
+                                    <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
+                                </span>
+                            </li>)
+                        ) : <li>Sem TODOS pendentes.</li>}
+                    </ul>
+                </div>
+                <div style={{
+                    flexBasis: '400px',
+                    backgroundColor: 'green',
+                    padding: '10px',
+                    margin: '5px'
+                }}>
+                    <h3>Concluídos:</h3>
+                    <ul>
+                        {doneTodos.length ? doneTodos.map(todo => (
+                            <li key={todo.id} id={todo.id} style={{ clear: 'both' }}>
+                                <span>{todo.text}</span>
+                                <span style={{ float: 'right' }}>
+                                    <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Pendente</button>
+                                    <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
+                                </span>
+                            </li>)
+                        ) : <li>Sem TODOS concluídos.</li>}
+                    </ul>
+                </div>
+            </div>
         </div>
     );
 }
