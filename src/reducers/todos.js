@@ -23,13 +23,11 @@ const todosReducer = function (state = INITIAL_STATE, action) {
             }
         case actionTypes.TOGGLE_TODO:
             const newTodos = [...state.todos];
-            console.log('newtodos', newTodos);
             newTodos.forEach((todo, index, todos) => {
                 if (todo.id === action.payload) {
                     todos[index].done = !todos[index].done;
                 }
             })
-            console.log(newTodos);
             return {
                 todos: newTodos
             }

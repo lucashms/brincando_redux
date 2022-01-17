@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO } from '../../actions/actions';
 
@@ -8,6 +8,22 @@ function Todos() {
 
     const todos = useSelector(state => state.todosReducer.todos);
     const [todoText, setTodoText] = useState('');
+    const [pendingTodos, setPendingTodos] = useState([]);
+    const [doneTodos, setDoneTodos] = useState([]);
+
+    useEffect(() => {
+        const pTodos = [];
+        const dTodos = [];
+        todos.forEach(todo => {
+            if (!todo.done) {
+                pTodos.push(todo);
+            } else {
+                dTodos.push(todo);
+            }
+        });
+        setPendingTodos(pTodos);
+        setDoneTodos(dTodos);
+    }, [todos]);
 
     const handleAddTodo = (e) => {
         e.preventDefault();
@@ -15,27 +31,6 @@ function Todos() {
         setTodoText('');
     };
 
-    const loadPendingTodos = () => {
-        return todos.map(todo =>
-            !todo.done ? (
-                <li key={todo.id} id={todo.id}>{todo.text} -
-                    <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Concluído</button> -
-                    <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
-                </li>
-            ) : ''
-        )
-    };
-
-    const loadDoneTodos = () => {
-        return todos.map(todo =>
-            todo.done ? (
-                <li key={todo.id} id={todo.id}>{todo.text}  -
-                    <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Pendente</button> -
-                    <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
-                </li>
-            ) : ''
-        )
-    }
 
     return (
         <div>
@@ -45,11 +40,21 @@ function Todos() {
             </form>
             <h3>Pendentes:</h3>
             <ul>
-                {loadPendingTodos()}
+                {pendingTodos.length ? pendingTodos.map(todo =>
+                    <li key={todo.id} id={todo.id}>{todo.text} -
+                        <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Concluído</button> -
+                        <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
+                    </li>
+                ) : <li>Sem TODOS pendentes.</li>}
             </ul>
             <h3>Concluídos:</h3>
             <ul>
-                {loadDoneTodos()}
+                {doneTodos.length ? doneTodos.map(todo =>
+                    <li key={todo.id} id={todo.id}>{todo.text} -
+                        <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Concluído</button> -
+                        <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
+                    </li>
+                ) : <li>Sem TODOS concluídos.</li>}
             </ul>
         </div>
     );
