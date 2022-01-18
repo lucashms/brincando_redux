@@ -31,10 +31,18 @@ function Todos() {
         setTodoText('');
     };
 
+    const formStyle = {
+        textAlign: 'center',
+        marginBottom: '10px ',
+        backgroundColor: 'yellow',
+        padding: '10px',
+        width: '830px',
+        margin: 'auto'
+    };
 
     return (
         <div>
-            <form style={{ textAlign: 'center', marginBottom: '10px ', backgroundColor: 'yellow', padding: '10px', width: '830px', margin: 'auto' }}>
+            <form style={formStyle}>
                 <input type="text" value={todoText} onChange={(e) => setTodoText(e.target.value)} />
                 <button type="submit" onClick={handleAddTodo}>INCLUIR</button>
             </form>
