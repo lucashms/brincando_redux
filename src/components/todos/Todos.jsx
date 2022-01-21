@@ -1,15 +1,17 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO } from '../../actions/actions';
+import { todosActions } from '../../reduxSlices/todosSlice'
 
 function Todos() {
     const dispatch = useDispatch();
 
-    const todos = useSelector(state => state.todosReducer.todos);
+    const todos = useSelector(state => state.todos.todos);
     const [todoText, setTodoText] = useState('');
     const [pendingTodos, setPendingTodos] = useState([]);
     const [doneTodos, setDoneTodos] = useState([]);
+
+    const todoInput = useRef();
 
     useEffect(() => {
         const pTodos = [];
@@ -27,7 +29,8 @@ function Todos() {
 
     const handleAddTodo = (e) => {
         e.preventDefault();
-        dispatch(ADD_TODO(todoText));
+        todoInput.current.focus();
+        dispatch(todosActions.addTodo(todoText));
         setTodoText('');
     };
 
@@ -43,7 +46,7 @@ function Todos() {
     return (
         <div>
             <form style={formStyle}>
-                <input type="text" value={todoText} onChange={(e) => setTodoText(e.target.value)} />
+                <input type="text" ref={todoInput} value={todoText} onChange={(e) => setTodoText(e.target.value)} />
                 <button type="submit" onClick={handleAddTodo}>INCLUIR</button>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -59,8 +62,8 @@ function Todos() {
                             <li key={todo.id} id={todo.id} style={{ clear: 'both' }}>
                                 <span>{todo.text}</span>
                                 <span style={{ float: 'right' }}>
-                                    <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Concluído</button>
-                                    <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
+                                    <button onClick={() => dispatch(todosActions.toggleTodo(todo.id))}>Concluído</button>
+                                    <button onClick={() => dispatch(todosActions.removeTodo(todo.id))}>Excluir</button>
                                 </span>
                             </li>)
                         ) : <li>Sem TODOS pendentes.</li>}
@@ -78,8 +81,8 @@ function Todos() {
                             <li key={todo.id} id={todo.id} style={{ clear: 'both' }}>
                                 <span>{todo.text}</span>
                                 <span style={{ float: 'right' }}>
-                                    <button onClick={() => dispatch(TOGGLE_TODO(todo.id))}>Pendente</button>
-                                    <button onClick={() => dispatch(REMOVE_TODO(todo.id))}>Excluir</button>
+                                    <button onClick={() => dispatch(todosActions.toggleTodo(todo.id))}>Pendente</button>
+                                    <button onClick={() => dispatch(todosActions.removeTodo(todo.id))}>Excluir</button>
                                 </span>
                             </li>)
                         ) : <li>Sem TODOS concluídos.</li>}

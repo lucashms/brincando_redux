@@ -4,18 +4,16 @@ import Todos from './components/todos/Todos';
 
 function App() {
   return (
-    <>
-      <Router>
-        <div style={{ textAlign: 'center' }}>
-          <Link to="/">Counter</Link> |  <Link to="/todos">Todos</Link>
-        </div>
-        <hr />
-        <Routes>
-          <Route path="/" element={<Counter />} />
-          <Route path="/todos" element={<Todos />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <div style={{ textAlign: 'center' }}>
+        <Link to="/">Counter</Link> |  <Link to="/todos">Todos</Link>
+      </div>
+      <hr />
+      <Routes>
+        <Route path="/" element={<Counter />} />
+        <Route path="/todos" element={<Todos />} />
+      </Routes>
+    </Router>
   );
 }
 
