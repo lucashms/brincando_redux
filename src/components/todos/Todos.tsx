@@ -2,16 +2,17 @@ import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { todosActions } from '../../reduxSlices/todosSlice'
+import { RootState } from '../../store';
 
 function Todos() {
     const dispatch = useDispatch();
 
-    const todos = useSelector(state => state.todos.todos);
+    const todos = useSelector((state: RootState) => state.todos.todos);
     const [todoText, setTodoText] = useState('');
     const [pendingTodos, setPendingTodos] = useState([]);
     const [doneTodos, setDoneTodos] = useState([]);
 
-    const todoInput = useRef();
+    const todoInput = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const pTodos = [];
@@ -35,7 +36,7 @@ function Todos() {
     };
 
     const formStyle = {
-        textAlign: 'center',
+        textAlign: 'center' as 'center',
         marginBottom: '10px ',
         backgroundColor: 'yellow',
         padding: '10px',

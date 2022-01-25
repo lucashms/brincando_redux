@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { sortAndDeduplicateDiagnostics } from 'typescript';
 import slices from '../reduxSlices'
 
 const store = configureStore({
@@ -9,3 +10,7 @@ const store = configureStore({
 })
 
 export default store;
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;

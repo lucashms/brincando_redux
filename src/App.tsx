@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Counter from './components/counter/Counter';
 import Todos from './components/todos/Todos';
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <div style={{ textAlign: 'center' }}>
